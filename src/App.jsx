@@ -1,9 +1,11 @@
+import { RouterProvider } from 'react-router-dom'
+import routes from './routes/routes'
 
 function App() {
   return (
-    <section>
-      <h3 className='text-center'> React Is running!</h3>
-    </section>
+    <>
+      <RouterProvider router={ routes } />
+    </>
   )
 }
 

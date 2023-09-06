@@ -1,8 +1,18 @@
-# React + Vite
+# React Basic Starter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Packages includes
 
-Currently, two official plugins are available:
+* React With Vite
+* React Router DOM
+* Tailwind CSS
+* DaisyUI
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Starter Have
+
+* Basic Files and Folder Structure
+* Setup Routes With React Router DOM
+* Configure Tailwind CSS
+* Configure DaisyUI
+* Setup Themes
+
+*** You can use this for any of your React Projects. Don't need to change any folders. Just remove that folder or files you don't need in your project.
