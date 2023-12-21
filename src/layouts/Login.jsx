@@ -1,21 +1,71 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import image from '../../public/signup.jpg'
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
+import axios from "axios";
+import Swal from "sweetalert2";
 const Login = () => {
+
+  const {signIn ,googleLogIn} =useContext(AuthContext)
+ const navigate = useNavigate()
+ const location = useLocation()
+ const from = location.state?.from?.pathname || '/'
 
  const handleLogin =(e)=>{
  e.preventDefault()
  const form = e.target;
 const email = form.email.value;
  const password = form.password.value;
- console.log(email,password);   
+ console.log(email,password);
+ signIn(email,password)
+  .then(result=>{
+    const user = result.user
+    console.log(user);
+    Swal.fire({
+      title: "Good job!",
+      text: "successfully login",
+      icon: "success",
+      timer:1500
+    });
+    navigate(from,{replace:true})
+  })   
 }
 
 const handleGoogle =(e)=>{
- e.preventDefault()
+  e.preventDefault()
+  googleLogIn()
+  .then(res=>{
+    console.log(res.user);
+    const userInfo ={
+      email:res.user?.email,
+      name:res.user?.displayName,
+      photo:res.user?.photoURL,
+      profession:res.user?.profession
+    }
+    if(res.user){
 
- }
+    }
+    axios.post('http://localhost:5000/users',userInfo)
+    .then(res=>{
+      console.log(res.data);
+      if(res.data.insertedId){
+       
+        Swal.fire({
+          title: "Good job!",
+          text: "successfully login",
+          icon: "success",
+          timer:1500
+        });
+        navigate(from,{replace:true})
+   
+      }
+ 
+    })
+  })
+  // navigate(from,{replace:true})
+}
                                                                                        
   return (
 <div className="hero min-h-screen bg-base-200">
@@ -55,7 +105,7 @@ const handleGoogle =(e)=>{
        <p className="text-center text-lg text-cyan-400">or connect with</p>
       <button onClick={handleGoogle} className="w-10 text-center text-">
        {/* <FcGoogle className="text-4xl mt-2"></FcGoogle> */}
-       <div className="flex justify-between">
+       <div className="">
        <FcGoogle className="text-3xl mt-2 mr-2" /><FaGithub className="text-3xl mt-2" />
        </div>
       </button>

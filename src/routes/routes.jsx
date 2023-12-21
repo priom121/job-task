@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Contact from '../layouts/Contact';
 import Login from '../layouts/Login';
 import SignUp from '../layouts/Signup';
+import Dashbord from '../layouts/Dashbord';
 
 
 
@@ -29,7 +30,11 @@ const routes = createBrowserRouter([
             {
                 path:"/signUp",
                 element:<SignUp/>
-            }
+            },
+            {
+                path:'/dashboard',
+                element:<Dashbord/>
+            },
            
         ]
     }

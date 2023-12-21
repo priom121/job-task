@@ -1,13 +1,49 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import login from "../../public/logn.jpg"
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const Signup = () => {
 const { register, handleSubmit,reset, formState: { errors }} = useForm();
+const {createUser ,updateUserProfile} = useContext(AuthContext);
+const navigate = useNavigate()
 const onSubmit = (data) => {
   console.log(data)
                                                         
   createUser(data.email,data.password)
+  .then(result=>{
+    const loggedUser =result.user 
+    console.log(loggedUser);
+    updateUserProfile(data.name,data.photoURL)
+    .then(()=>{
+      // database
+      const userInfo ={
+        name :data.name,
+        email:data.email ,
+        photo:data.photo,
+        profession:data.profession
+      } 
+    axios.post('http://localhost:5000/users',userInfo)
+     .then(res=>{
+      if(res.data.insertedId){
+        console.log('user add to the database');
+        reset()
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "user register successfully",
+          showConfirmButton: false,
+          timer: 1500
+        })
+        navigate('/') 
+      }
+     })
+    })
+    .catch(error=>console.log(error))
+  })
 
  }                          
  return (
@@ -51,6 +87,14 @@ pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/
 {errors.password?.type === 'maxLength' && <p className="text-red-600">Password must be less than 20 characters</p>}  {errors.password?.type === 'pattern' && <p className="text-red-600">Password must have one Uppercase one lower case, one number and one special character.</p>}
 
   </div>
+  <div className="form-control">
+ <label className="label">
+ <span className="label-text text-white">profession </span>
+ </label>
+ <input type="text"
+ {...register(" profession", { required: true })} placeholder="name"  className="input text-black input-bordered" required />
+ {/* {errors.name && <span className="text-red-500">name is required</span>} */}
+ </div>      
  <div className="form-control">
  <label className="label">
   <span className="label-text text-white">Photo</span>
