@@ -1,9 +1,9 @@
-import React from 'react';
+import img from '../../public/error.jpg'
 
 const ErrorPage = () => {
     return (
         <div>
-            This is error page
+             <img className='w-1/2 mt-14 mx-auto' src={img} alt="" />   
         </div>
     );
 };
