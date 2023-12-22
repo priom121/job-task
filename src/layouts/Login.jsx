@@ -8,7 +8,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 const Login = () => {
 
-  const {signIn ,googleLogIn} =useContext(AuthContext)
+  const {signIn ,googleLogIn ,gitLogIn} =useContext(AuthContext)
  const navigate = useNavigate()
  const location = useLocation()
  const from = location.state?.from?.pathname || '/'
@@ -33,6 +33,39 @@ const email = form.email.value;
   })   
 }
 
+const handleGit =(e)=>{
+  e.preventDefault()
+  gitLogIn()
+  .then(res=>{
+    console.log(res.user);
+    const userInfo ={
+      email:res.user?.email,
+      name:res.user?.displayName,
+      photo:res.user?.photoURL,
+      profession:res.user?.profession
+    }
+    if(res.user){
+
+    }
+    axios.post('http://localhost:5000/users',userInfo)
+    .then(res=>{
+      console.log(res.data);
+      if(res.data.insertedId){
+       
+        Swal.fire({
+          title: "Good job!",
+          text: "successfully git login",
+          icon: "success",
+          timer:1500
+        });
+        navigate(from,{replace:true})
+   
+      }
+ 
+    })
+  })
+}
+
 const handleGoogle =(e)=>{
   e.preventDefault()
   googleLogIn()
@@ -54,7 +87,7 @@ const handleGoogle =(e)=>{
        
         Swal.fire({
           title: "Good job!",
-          text: "successfully login",
+          text: "successfully google login",
           icon: "success",
           timer:1500
         });
@@ -106,7 +139,13 @@ const handleGoogle =(e)=>{
       <button onClick={handleGoogle} className="w-10 text-center text-">
        {/* <FcGoogle className="text-4xl mt-2"></FcGoogle> */}
        <div className="">
-       <FcGoogle className="text-3xl mt-2 mr-2" /><FaGithub className="text-3xl mt-2" />
+       <FcGoogle className="text-3xl mt-2 mr-2" />
+       </div>
+      </button>
+      <button onClick={handleGit} className="w-10 text-center text-">
+       {/* <FcGoogle className="text-4xl mt-2"></FcGoogle> */}
+       <div className="">
+       <FaGithub className="text-3xl mt-2" />
        </div>
       </button>
       </div>

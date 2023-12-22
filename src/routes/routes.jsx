@@ -6,6 +6,9 @@ import Contact from '../layouts/Contact';
 import Login from '../layouts/Login';
 import SignUp from '../layouts/Signup';
 import Dashbord from '../layouts/Dashbord';
+import ToDo from '../layouts/ToDo';
+import Task from '../layouts/Task';
+import PrivateRoute from './PrivateRoute';
 
 
 
@@ -30,14 +33,23 @@ const routes = createBrowserRouter([
             {
                 path:"/signUp",
                 element:<SignUp/>
-            },
-            {
-                path:'/dashboard',
-                element:<Dashbord/>
-            },
-           
+            }
         ]
-    }
+    },
+    {
+        path:'dashbord',
+        element:<PrivateRoute><Dashbord></Dashbord></PrivateRoute>,
+        children:[
+          {
+            path:'dashbord/task',
+            element:<PrivateRoute><Task></Task></PrivateRoute>
+          },
+          {
+            path:'dashbord/todo',
+            element:<PrivateRoute><ToDo></ToDo></PrivateRoute>
+          }
+        ]
+      }  
 ])
 
 export default routes;
